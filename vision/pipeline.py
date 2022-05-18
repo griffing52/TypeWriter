@@ -22,10 +22,16 @@ def findArucoMarkers(img, marker_size=6, total_markers=250, draw=True):
     key = getattr(aruco, f'DICT_{marker_size}X{marker_size}_{total_markers}')
     dict = aruco.Dictionary_get(key)
     params = aruco.DetectorParameters_create()
-    boxs, ids, rejects = aruco.detectMarkers(gray_img, dict, parameters=params)
+    corners, ids, rejects = aruco.detectMarkers(gray_img, dict, parameters=params)
+
+    return (corners, ids) 
+
+    # for corner in corners:
+    #     cv2.circle(img, (int(corner[0][0][0]), int(corner[0][0][1])), 10, (0, 0, 255), 3)
 
     if draw:
-        aruco.drawDetectedMarkers(img, boxs)
+        aruco.drawDetectedMarkers(img, corners)
+        # aruco.estimatePoseSingleMarkers(corners, 0.05, np.array([0]), np.array([0]), np.array([0]), np.array([0]))
 
 def main():
     # cap = cv2.VideoCapture(0)
